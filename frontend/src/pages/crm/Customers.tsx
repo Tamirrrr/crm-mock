@@ -11,8 +11,10 @@ import {GetCustomersResponse} from "@/interfaces/api/customers.interface.ts";
 import {CustomersTableActions} from "@/enums/customers/table-actions.enum.ts";
 import CustomerFormDialog from "@/components/shared/customers/CustomerFormDiagalog.tsx";
 import {Button} from "@/components/ui/button.tsx";
+import {useNavigate} from "react-router-dom";
 
 const CustomersPage = observer(() => {
+    const navigate = useNavigate();
     const [customers, setCustomers] = useState<Customer[]>([]);
     const [selectedCustomer, setSelectedCustomer] = useState<Customer | undefined>(undefined);
     const [loading, setLoading] = useState<boolean>(true);
@@ -63,6 +65,9 @@ const CustomersPage = observer(() => {
             case CustomersTableActions.EDIT:
                 setSelectedCustomer(row);
                 setIsFormDialogOpen(true);
+                break;
+            case CustomersTableActions.VIEW:
+                navigate(`/customers/${row.id}`)
                 break;
         }
     }
