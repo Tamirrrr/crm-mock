@@ -1,0 +1,1 @@
+CREATE SCHEMA IF NOT EXISTS crm COLLATE utf8mb4_unicode_ci;

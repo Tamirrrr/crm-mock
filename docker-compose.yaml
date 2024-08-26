@@ -1,0 +1,66 @@
+version: '3.1'
+services:
+  mysql:
+    hostname: ${DATABASE_HOST}
+    image: mysql:8.3.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - "${DATABASE_PORT}:3306"
+    volumes:
+      - mysql:/var/lib/mysql
+    networks:
+      - local
+  migrator:
+    image: mysql:8.3.0
+    volumes:
+      - ./infrastructure/db/migrations:/migrations
+      - ./infrastructure/db/migrator.sh:/migrator.sh
+    environment:
+      MYSQL_HOST: ${DATABASE_HOST}
+      MYSQL_PORT: ${DATABASE_PORT}
+      MYSQL_USER: ${DATABASE_USERNAME}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+    depends_on:
+      - mysql
+    networks:
+      - local
+    entrypoint: [ "/bin/bash", "/migrator.sh" ]
+  backend:
+    hostname: ${BACKEND_HOST}
+    environment:
+      DB_HOST: ${DATABASE_HOST}
+      DB_PORT: ${DATABASE_PORT}
+      DB_USERNAME: ${DATABASE_USERNAME}
+      DB_PASSWORD: ${DATABASE_PASSWORD}
+      DB_DATABASE: ${DATABASE_NAME}
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - mysql
+      - migrator
+    ports:
+      - "${BACKEND_PORT}:8000"
+    networks:
+      - local
+  frontend:
+    hostname: ${FRONTEND_HOST}
+    environment:
+      VITE_API_BASE_URL: "http://localhost:${BACKEND_PORT}/api/v1/"
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT}:5173"
+    networks:
+      - local
+volumes:
+  mysql:
+networks:
+  local:
