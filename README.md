@@ -3,7 +3,7 @@
 ## Requirements
 - Docker
 - Git
-- WSL2 (For database schema migrations). Otherwise `crm` schema needs to be created manually
+- WSL2 (For database schema migrations). Otherwise `crm` schema needs to be created manually. View infrastructure/db/migrations/init.sql for more information
 
 ## Installation
 ```
@@ -21,7 +21,7 @@
 ## Possible Improvements for Scalability and Maintainability
 ### Backend
 - Add unit tests and e2e test for the full system integration and functionality
-- Add more error handling and logging for both services and the API
+- Add more error handling and improve logging.
 - Add a better validation input for requests and implement custom messages for specific validation rules
 - Implement better and more secure JWT authentication with DB to allow auditing and tracking of user's login history and activity monitoring
     This also helps to invalidate tokens. Another way would be to use an existing composer package such as tymon/jwt-auth

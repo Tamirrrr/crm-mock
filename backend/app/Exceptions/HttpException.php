@@ -34,12 +34,12 @@ class HttpException extends Exception
         }
 
         HttpStatus::isError($this->httpStatus) ?
-            Log::error($message) : Log::warning($message);
+            Log::error($message, $this->context) : Log::warning($message, $this->context);
     }
 
     public function getLogMessage(): string
     {
-        return sprintf("An error occurred with status code %d. Message: %s. Context: %s",
-            $this->httpStatus->value, $this->message, json_encode($this->context));
+        return sprintf("An error occurred with status code %d. Message: %s",
+            $this->httpStatus->value, $this->message);
     }
 }
