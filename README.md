@@ -27,8 +27,10 @@
     This also helps to invalidate tokens. Another way would be to use an existing composer package such as tymon/jwt-auth
 - Implement cache service with multiple cache drivers (abstract factory). This will allow
     caching responses and data in a more scalable way removing the need to query the database for the customers table for example.
+- Implement Pagination for resources and extended pagination functionality by creating a dynamic grid service.
 
 ### Frontend
+- A dedicated page for customer details. Although, customer details can be currently viewed directly from the table.
 - Add tests cases using React Test Library and also integration tests
 - Add more error handling and logging for the frontend
 - Validation inputs for the authentication forms and customer dialog form
@@ -37,6 +39,7 @@
 - Restructure the components to be more reusable and maintainable
 - Use an SSR framework like Next.js to improve SEO and performance
 - Add loading screens and skeletons to improve the user experience
+- Table pagination and sorting for the customers table and other tables.
 
 ### Infrastructure
 - Improve current dockerfiles as they are not production ready
